@@ -1,0 +1,67 @@
+{
+  "project_info": {
+    "project_number": "671512218186",
+    "project_id": "oua-quiz-app",
+    "storage_bucket": "oua-quiz-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:671512218186:android:55e5a12f7cf9298c5e74b3",
+        "android_client_info": {
+          "package_name": "com.example.firebase_auth"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDcDefGNKwsE_85MveEZT4G0t3nEmXbGDQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:671512218186:android:5fd97400d64486bf5e74b3",
+        "android_client_info": {
+          "package_name": "com.example.oua_quiz_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDcDefGNKwsE_85MveEZT4G0t3nEmXbGDQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:671512218186:android:130ff3e2d039cd965e74b3",
+        "android_client_info": {
+          "package_name": "com.example.quizz_ai"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDcDefGNKwsE_85MveEZT4G0t3nEmXbGDQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

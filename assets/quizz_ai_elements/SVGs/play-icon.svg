@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="katman_2" data-name="katman 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 661.27 802.05">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #000;
+        stroke-width: 0px;
+      }
+    </style>
+  </defs>
+  <g id="katman_1" data-name="katman 1">
+    <path class="cls-1" d="M182.92,19.56l425.05,278.97c70.55,46.3,71.18,149.52,1.2,196.69l-425.05,286.47C105.67,834.56,0,778.35,0,683.74V118.31C0,24.36,104.37-31.99,182.92,19.56Z"/>
+  </g>
+</svg>
