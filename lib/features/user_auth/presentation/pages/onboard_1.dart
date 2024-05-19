@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:image_pixels/image_pixels.dart';
+import 'package:quizz_ai/features/user_auth/presentation/widgets/indicator_row.dart';
 import 'package:quizz_ai/global/common/colors.dart';
 
-class Welcome1 extends StatelessWidget {
-  const Welcome1({super.key});
+class OnboardingScreen1 extends StatelessWidget {
+  const OnboardingScreen1({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -44,33 +43,19 @@ class Welcome1 extends StatelessWidget {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            // ImagePixels(
-            //   imageProvider:
-            //       const AssetImage('assets/quizz_ai_logo/main-logo.png'),
-            //   builder: (context, img) {
-            //     Color topLeftColor = img.pixelColorAt!(100, 100);
-            //     debugPrint("Pixel color at top-left: $topLeftColor.");
-            //     return Text("Pixel color at top-left: $topLeftColor.");
-            //   },
-            // ),
             const SizedBox(height: 20),
             Center(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  daireWidget(DaireDurumu.yanik),
-                  const SizedBox(width: 10),
-                  daireWidget(DaireDurumu.sonuk),
-                  const SizedBox(width: 10),
-                  daireWidget(DaireDurumu.sonuk),
-                ],
+              child: IndicatorRow(
+                indicatorStatus: IndicatorStatus.first,
               ),
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 100),
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pushNamed(context, "/onboard2");
+              },
               style: ElevatedButton.styleFrom(
-                foregroundColor: Colors.green,
+                foregroundColor: backgroundColor,
                 backgroundColor: Colors.white, // Buton metninin rengi
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10), // Yuvarlak köşeler
@@ -85,26 +70,4 @@ class Welcome1 extends StatelessWidget {
       ),
     );
   }
-}
-
-enum DaireDurumu { yanik, sonuk }
-
-Widget daireWidget(DaireDurumu durum) {
-  Color renk;
-  switch (durum) {
-    case DaireDurumu.yanik:
-      renk = Colors.green;
-      break;
-    case DaireDurumu.sonuk:
-      renk = Colors.white;
-      break;
-  }
-  return Container(
-    width: 10,
-    height: 10,
-    decoration: BoxDecoration(
-      color: renk,
-      shape: BoxShape.circle,
-    ),
-  );
 }

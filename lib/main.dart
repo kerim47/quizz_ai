@@ -1,11 +1,12 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:quizz_ai/features/user_auth/presentation/pages/ex.dart';
-import 'package:quizz_ai/features/user_auth/presentation/pages/welcome_1.dart';
-import 'features/app/splash_screen/splash_screen.dart';
+import 'package:quizz_ai/features/user_auth/presentation/pages/giris_page.dart';
+import 'package:quizz_ai/features/user_auth/presentation/pages/onboard_1.dart';
+import 'package:quizz_ai/features/user_auth/presentation/pages/onboard_2.dart';
+import 'package:quizz_ai/features/user_auth/presentation/pages/quiz_page.dart';
 import 'features/user_auth/presentation/pages/home_page.dart';
-import 'features/user_auth/presentation/pages/login_page.dart';
-import 'features/user_auth/presentation/pages/sign_up_page.dart'; // Import Firebase Auth
+import 'features/user_auth/presentation/pages/kayit_page.dart';
+import 'features/user_auth/presentation/pages/onboard_3.dart';
 
 import 'firebase_options.dart';
 
@@ -24,16 +25,17 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Firebase',
+      title: 'Quizz AI',
       routes: {
-        '/': (context) => const Welcome1(),
-        // '/': (context) => const SplashScreen(
-        //       // Here, you can decide whether to show the LoginPage or HomePage based on user authentication
-        //       child: LoginPage(),
-        //     ),
-        '/login': (context) => const LoginPage(),
-        '/signUp': (context) => const SignUpPage(),
+        // '/': (context) => const OnboardingScreen1(), // ilk başladığında bu kod çalışacak
+        '/': (context) => const OnboardingScreen1(),
+        '/login': (context) => const SignInScreen(),
+        '/signup': (context) => SignUpScreen(),
         '/home': (context) => const HomePage(),
+        '/onboard1': (context) => const OnboardingScreen1(),
+        '/onboard2': (context) => const OnboardingScreen2(),
+        '/onboard3': (context) => const OnboardingScreen3(),
+        '/quiz': (context) => const QuizScreen(),
       },
     );
   }

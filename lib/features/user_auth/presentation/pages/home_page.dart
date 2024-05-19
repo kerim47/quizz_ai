@@ -52,40 +52,86 @@ class _HomePageState extends State<HomePage> {
               StreamBuilder<List<UserModel>>(
                 stream: _readData(),
                 builder: (context, snapshot) {
-                  if(snapshot.connectionState == ConnectionState.waiting){
-                    return const Center(child: CircularProgressIndicator(),);
-                  } if(snapshot.data!.isEmpty){
-                    return const Center(child:Text("No Data Yet"));
+                  if (snapshot.hasError) {
+                    return Text('Error: ${snapshot.error}');
                   }
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(child: CircularProgressIndicator());
+                  }
+                  if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                    return Center(child: Text('No Data Yet'));
+                  }
+
                   final users = snapshot.data;
-                  return Padding(padding: const EdgeInsets.all(8),
-                  child: Column(
-                    children: users!.map((user) {
-                      return ListTile(
-                        leading: GestureDetector(
-                          onTap: (){
-                            _deleteData(user.id!);
-                          },
-                          child: const Icon(Icons.delete),
-                        ),
-                        trailing: GestureDetector(
-                          onTap: (){
-                            _updateData(
-                              UserModel(
-                                id: user.id,
-                                username: "John Wick",
-                                adress: "Pakistan",)
-                            );
-                          },
-                          child: const Icon(Icons.update),
-                        ),
-                        title: Text(user.username!),
-                        subtitle: Text(user.adress!),
-                      );
-                    }).toList()
-                  ),);
-                }
+                  return Padding(
+                    padding: const EdgeInsets.all(8),
+                    child: Column(
+                      children: users!.map((user) {
+                        return ListTile(
+                          leading: GestureDetector(
+                            onTap: () {
+                              _deleteData(user.id!);
+                            },
+                            child: const Icon(Icons.delete),
+                          ),
+                          trailing: GestureDetector(
+                            onTap: () {
+                              _updateData(
+                                UserModel(
+                                  id: user.id,
+                                  username: "John Wick",
+                                  adress: "Pakistan",
+                                ),
+                              );
+                            },
+                            child: const Icon(Icons.update),
+                          ),
+                          title: Text(user.username!),
+                          subtitle: Text(user.adress!),
+                        );
+                      }).toList(),
+                    ),
+                  );
+                },
               ),
+
+              // StreamBuilder<List<UserModel>>(
+              //   stream: _readData(),
+              //   builder: (context, snapshot) {
+              //     if(snapshot.connectionState == ConnectionState.waiting){
+              //       return const Center(child: CircularProgressIndicator(),);
+              //     } if(snapshot.data!.isEmpty){
+              //       return const Center(child:Text("No Data Yet"));
+              //     }
+              //     final users = snapshot.data;
+              //     return Padding(padding: const EdgeInsets.all(8),
+              //     child: Column(
+              //       children: users!.map((user) {
+              //         return ListTile(
+              //           leading: GestureDetector(
+              //             onTap: (){
+              //               _deleteData(user.id!);
+              //             },
+              //             child: const Icon(Icons.delete),
+              //           ),
+              //           trailing: GestureDetector(
+              //             onTap: (){
+              //               _updateData(
+              //                 UserModel(
+              //                   id: user.id,
+              //                   username: "John Wick",
+              //                   adress: "Pakistan",)
+              //               );
+              //             },
+              //             child: const Icon(Icons.update),
+              //           ),
+              //           title: Text(user.username!),
+              //           subtitle: Text(user.adress!),
+              //         );
+              //       }).toList()
+              //     ),);
+              //   }
+              // ),
 
               GestureDetector(
                 onTap: () {
@@ -115,12 +161,14 @@ class _HomePageState extends State<HomePage> {
         ));
   }
 
-  Stream<List<UserModel>> _readData(){
+  Stream<List<UserModel>> _readData() {
     final userCollection = FirebaseFirestore.instance.collection("users");
 
-    return userCollection.snapshots().map((qureySnapshot)
-    => qureySnapshot.docs.map((e)
-    => UserModel.fromSnapshot(e),).toList());
+    return userCollection.snapshots().map((qureySnapshot) => qureySnapshot.docs
+        .map(
+          (e) => UserModel.fromSnapshot(e),
+        )
+        .toList());
   }
 
   void _createData(UserModel userModel) {
@@ -132,7 +180,7 @@ class _HomePageState extends State<HomePage> {
       username: userModel.username,
       age: userModel.age,
       adress: userModel.adress,
-        id: id,
+      id: id,
     ).toJson();
 
     userCollection.doc(id).set(newUser);
@@ -149,28 +197,25 @@ class _HomePageState extends State<HomePage> {
     ).toJson();
 
     userCollection.doc(userModel.id).update(newData);
-
   }
 
   void _deleteData(String id) {
     final userCollection = FirebaseFirestore.instance.collection("users");
 
     userCollection.doc(id).delete();
-
   }
-
 }
 
-class UserModel{
+class UserModel {
   final String? username;
   final String? adress;
   final int? age;
   final String? id;
 
-  UserModel({this.id,this.username, this.adress, this.age});
+  UserModel({this.id, this.username, this.adress, this.age});
 
-
-  static UserModel fromSnapshot(DocumentSnapshot<Map<String, dynamic>> snapshot){
+  static UserModel fromSnapshot(
+      DocumentSnapshot<Map<String, dynamic>> snapshot) {
     return UserModel(
       username: snapshot['username'],
       adress: snapshot['adress'],
@@ -179,7 +224,7 @@ class UserModel{
     );
   }
 
-  Map<String, dynamic> toJson(){
+  Map<String, dynamic> toJson() {
     return {
       "username": username,
       "age": age,

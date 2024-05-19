@@ -6,6 +6,10 @@ import '../../../global/common/toast.dart';
 class FirebaseAuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
+  FirebaseAuth getAuth() {
+    return _auth;
+  }
+
   Future<User?> signUpWithEmailAndPassword(
       String email, String password) async {
     try {
@@ -14,9 +18,14 @@ class FirebaseAuthService {
       return credential.user;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'email-already-in-use') {
-        showToast(message: 'The email address is already in use.');
-      } else {
-        showToast(message: 'An error occurred: ${e.code}');
+        showToast(message: 'Boyle bir email zaten mevcut');
+      }  else if(e.code == 'network-request-failed') {
+        showToast(message: 'Doğrulanamıyor...\nLütfen internet bağlantınızı kontrol ediniz.');
+      }
+
+      else {
+        debugPrint("HATA KODU: ${e.code}");
+        // showToast(message: 'An error occurred: ${e.code}');
       }
     }
     return null;
@@ -38,7 +47,7 @@ class FirebaseAuthService {
       String? res = validateEmail(email);
       if (res == null) {
         debugPrint('Emailde bir sorun yok firebasede var');
-      } else{
+      } else {
         debugPrint(res);
       }
       debugPrint("**************************************");
