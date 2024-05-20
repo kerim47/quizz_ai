@@ -1,12 +1,13 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:quizz_ai/features/user_auth/presentation/pages/giris_page.dart';
-import 'package:quizz_ai/features/user_auth/presentation/pages/onboard_1.dart';
-import 'package:quizz_ai/features/user_auth/presentation/pages/onboard_2.dart';
-import 'package:quizz_ai/features/user_auth/presentation/pages/quiz_page.dart';
+
+import 'features/user_auth/presentation/pages/login_page.dart';
+import 'features/user_auth/presentation/pages/onboard_1.dart';
+import 'features/user_auth/presentation/pages/onboard_2.dart';
+import 'features/user_auth/presentation/pages/quiz_page.dart';
 import 'features/user_auth/presentation/pages/home_page.dart';
-import 'features/user_auth/presentation/pages/kayit_page.dart';
 import 'features/user_auth/presentation/pages/onboard_3.dart';
+import 'features/user_auth/presentation/pages/signup_page.dart';
 
 import 'firebase_options.dart';
 
