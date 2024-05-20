@@ -19,11 +19,11 @@ class FirebaseAuthService {
     } on FirebaseAuthException catch (e) {
       if (e.code == 'email-already-in-use') {
         showToast(message: 'Boyle bir email zaten mevcut');
-      }  else if(e.code == 'network-request-failed') {
-        showToast(message: 'Doğrulanamıyor...\nLütfen internet bağlantınızı kontrol ediniz.');
-      }
-
-      else {
+      } else if (e.code == 'network-request-failed') {
+        showToast(
+            message:
+                'Doğrulanamıyor...\nLütfen internet bağlantınızı kontrol ediniz.');
+      } else {
         debugPrint("HATA KODU: ${e.code}");
         // showToast(message: 'An error occurred: ${e.code}');
       }
@@ -60,6 +60,20 @@ class FirebaseAuthService {
       debugPrint("**************************************");
       if (e.code == 'user-not-found' || e.code == 'wrong-password') {
         showToast(message: 'Invalid email or password.');
+      } else if (e.code == 'network-request-failed') {
+        showToast(
+            message:
+                'Doğrulanamıyor...\nLütfen internet bağlantınızı kontrol ediniz.');
+      } else if (e.code == 'too-many-requests') {
+        showToast(
+            message:
+                'Çok fazla deneme yaptınız. Lütfen daha sonra tekrar deneyin.');
+      } else if (e.code == 'invalid-email') {
+        showToast(message: 'Geçersiz email adresi');
+      } else if (e.code == 'invalid-password') {
+        showToast(message: 'Geçersiz şifre');
+      } else if (e.code == 'invalid-credential') {
+        showToast(message: 'Boyle bir kullanıcı yok lütfen kayıt olun');
       } else {
         showToast(message: 'An error occurred: ${e.code}');
       }

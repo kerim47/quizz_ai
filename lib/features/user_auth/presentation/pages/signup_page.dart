@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -25,6 +26,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final FirebaseAuthService _auth = FirebaseAuthService();
 
   bool isSigningUp = false;
+  bool isSigningUpWithGoogle = false;
 
   @override
   void dispose() {
@@ -34,42 +36,62 @@ class _SignUpScreenState extends State<SignUpScreen> {
     super.dispose();
   }
 
+  Future<void> _signUpWithGoogle2() async {
+    try {
+      GoogleAuthProvider googleProvider = GoogleAuthProvider();
+      _auth.getAuth().signInWithProvider(googleProvider);
+      Navigator.popUntil(context, ModalRoute.withName("/login"));
+    } catch (e) {
+      debugPrint('HATA: Error during Google sign-in: $e');
+    }
+  }
+
   Future<void> _signUpWithGoogle() async {
     try {
+      setState(() {
+        isSigningUpWithGoogle = true;
+      });
       final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
       if (googleUser == null) {
         // Kullanıcı oturum açmayı iptal etti
-        debugPrint("HATA: Kullanıcı oturum açmayı iptal etti");
         return;
       }
-      debugPrint('HATA: Buraya kadar hata yok GoogleSignInAccount');
 
       final GoogleSignInAuthentication googleAuth =
           await googleUser.authentication;
-      debugPrint('HATA: Buraya kadar hata yok GoogleSignInAuthentication');
       final AuthCredential credential = GoogleAuthProvider.credential(
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
       );
-      debugPrint('HATA: Buraya kadar hata yok');
 
       final UserCredential userCredential =
           // await _auth.signInWithCredential(credential);
           await _auth.getAuth().signInWithCredential(credential);
       final User? user = userCredential.user;
 
+      setState(() {
+        isSigningUpWithGoogle = false;
+      });
       if (user != null) {
-        debugPrint('HATA: Google sign-in successful: ${user.email}');
-        // Kullanıcı başarıyla kaydoldu, burada yönlendirme yapabilirsiniz
+        debugPrint(
+            'Google sign-in successful: ${user.email} ${user.displayName}');
+        showToast(message: 'Giriş Başarılı ${user.displayName}');
+        Navigator.of(context)
+            .pushNamedAndRemoveUntil('/quiz', (Route<dynamic> route) => false);
       }
+    } on PlatformException catch (e) {
+      showToast(
+          message:
+              'Google ile giriş yapılırken bir hata oluştu. Internet bağlantınızı kontrol edin.');
     } catch (e) {
-      debugPrint('HATA: Error during Google sign-in: $e');
+      debugPrint('HATA: Error during Google sign-in: ${e}');
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
@@ -139,8 +161,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     ),
                     const SizedBox(height: 10),
                     TextFormField(
-                      controller:
-                          passwordController, // controller ismini emailController'dan passwordController'a değiştirdim.
+                      controller: passwordController,
                       decoration: InputDecoration(
                         hintText: '********',
                         border: OutlineInputBorder(
@@ -161,12 +182,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     ),
                     const SizedBox(height: 16),
                     ElevatedButton(
-                      onPressed: () {
-                        if (formKey.currentState!.validate()) {
-                          // Handle email sign up
-                          _signUp();
-                        }
-                      },
+                      onPressed: isSigningUp
+                          ? null
+                          : () {
+                              if (formKey.currentState!.validate()) {
+                                _signUp();
+                              }
+                            },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.black,
                         padding: const EdgeInsets.symmetric(vertical: 16),
@@ -174,10 +196,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           borderRadius: BorderRadius.circular(8),
                         ),
                       ),
-                      child: const Text(
-                        'Kayıt Ol',
-                        style: TextStyle(color: Colors.white),
-                      ),
+                      child: isSigningUpWithGoogle
+                          ? const CircularProgressIndicator(color: Colors.black)
+                          : const Text('Kayıt Ol',
+                              style:
+                                  TextStyle(fontSize: 16, color: Colors.white)),
                     ),
                     const SizedBox(height: 16),
                     Row(
@@ -208,9 +231,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         ElevatedButton.icon(
-                          onPressed: () async {
-                            await _signUpWithGoogle();
-                          },
+                          onPressed: isSigningUpWithGoogle
+                              ? null
+                              : () async {
+                                  await _signUpWithGoogle();
+                                },
                           style: ElevatedButton.styleFrom(
                             foregroundColor: Colors.black,
                             backgroundColor: Colors.white,
@@ -221,7 +246,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             ),
                           ),
                           icon: const Icon(FontAwesomeIcons.google),
-                          label: const Text('Google'),
+                          label: isSigningUpWithGoogle
+                              ? const CircularProgressIndicator(
+                                  color: Colors.black)
+                              : const Text('Google',
+                                  style: TextStyle(fontSize: 16)),
                         ),
                         ElevatedButton.icon(
                           onPressed: () {

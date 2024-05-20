@@ -25,31 +25,6 @@ class _SignInScreenState extends State<SignInScreen> {
 
   final GoogleSignIn _googleSignIn = GoogleSignIn();
 
-  void _login() {
-    String email = _emailController.text;
-    String password = _passwordController.text;
-    // Burada giriş işlemleri yapılacak
-    if (kDebugMode) {
-      print('E-posta: $email');
-    }
-    if (kDebugMode) {
-      print('Şifre: $password');
-    }
-  }
-
-  void _googleSignInMethod() async {
-    try {
-      await _googleSignIn.signIn();
-      if (kDebugMode) {
-        print('Google ile giriş yapıldı.');
-      }
-    } catch (error) {
-      if (kDebugMode) {
-        print('Google ile giriş başarısız: $error');
-      }
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -67,10 +42,7 @@ class _SignInScreenState extends State<SignInScreen> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     IconButton(
-                      onPressed: () {
-                        Navigator.of(context)
-                            .pop(); // Bir önceki sayfaya geri dön
-                      },
+                      onPressed: () => Navigator.of(context).pop(),
                       icon: const Icon(
                         Icons.close,
                         color: Colors.black,
@@ -128,7 +100,7 @@ class _SignInScreenState extends State<SignInScreen> {
               ),
               const SizedBox(height: 16.0),
               ElevatedButton.icon(
-                onPressed: _googleSignInMethod,
+                onPressed: signInWithGoogle,
                 icon: const Icon(FontAwesomeIcons.google),
                 label: const Text(
                   'Google ile Giriş Yap',
@@ -168,6 +140,18 @@ class _SignInScreenState extends State<SignInScreen> {
     );
   }
 
+  Future<dynamic> signInWithGoogle() async {
+    debugPrint("sign in with google");
+    try {
+      await _googleSignIn.signIn();
+      showToast(message: 'Giriş başarılı');
+      Navigator.pushReplacementNamed(context, '/quiz');
+    } on Exception catch (e) {
+      debugPrint('exception->$e');
+    }
+    debugPrint("sign in with google end");
+  }
+
   void _signIn() async {
     setState(() {
       _isSigning = true;
@@ -184,10 +168,7 @@ class _SignInScreenState extends State<SignInScreen> {
 
     if (user != null) {
       showToast(message: "User is successfully signed in");
-      // ignore: use_build_context_synchronously
-      Navigator.pushNamed(context, "/quiz");
-    } else {
-      showToast(message: "some error occured");
+      Navigator.pushReplacementNamed(context, '/quiz');
     }
   }
 }

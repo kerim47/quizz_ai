@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:quizz_ai/features/user_auth/presentation/widgets/indicator_row.dart';
-import 'package:quizz_ai/global/common/colors.dart';
+
+import '../../../../global/common/colors.dart';
+import '../widgets/indicator_row.dart';
 
 class OnboardingScreen1 extends StatelessWidget {
   const OnboardingScreen1({super.key});
@@ -43,13 +44,9 @@ class OnboardingScreen1 extends StatelessWidget {
                 fontWeight: FontWeight.bold,
               ),
             ),
+            const SizedBox(height: 80),
+            Center(child: IndicatorRow(indicatorStatus: IndicatorStatus.first)),
             const SizedBox(height: 20),
-            Center(
-              child: IndicatorRow(
-                indicatorStatus: IndicatorStatus.first,
-              ),
-            ),
-            const SizedBox(height: 100),
             ElevatedButton(
               onPressed: () {
                 Navigator.pushNamed(context, "/onboard2");

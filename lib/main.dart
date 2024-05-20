@@ -28,8 +28,8 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Quizz AI',
       routes: {
-        // '/': (context) => const OnboardingScreen1(), // ilk başladığında bu kod çalışacak
-        '/': (context) => const OnboardingScreen1(),
+        '/': (context) => const OnboardingScreen1(), // ilk başladığında bu kod çalışacak
+        // '/': (context) => SignUpScreen(),
         '/login': (context) => const SignInScreen(),
         '/signup': (context) => SignUpScreen(),
         '/home': (context) => const HomePage(),
