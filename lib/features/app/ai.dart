@@ -11,7 +11,7 @@ class AI {
 
   Future<void> main() async {
     // Access your API key as an environment variable (see "Set up your API key" above)
-    const apiKey = 'AIzaSyDAOa3m7p1rOxwqH8AjrzUM4_238Wzu5gs';
+    const apiKey = '';
     // For text-only input, use the gemini-pro model
     final model = GenerativeModel(
         model: 'gemini-pro',
