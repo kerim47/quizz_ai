@@ -1,36 +1,15 @@
+import 'package:quizz_ai/features/app/ai_output_notifier.dart';
+import 'package:quizz_ai/features/app/landing_page.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'dart:async';
-import 'package:example_for_oua_ai/ai.dart';
 
-void main() {
-  runApp(const QuizApp());
-  SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
-}
-
-class QuizApp extends StatelessWidget {
-  const QuizApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return  MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: QuizPage(),
-    );
-  }
-}
 
 // ignore: must_be_immutable
 class QuizPage extends StatefulWidget {
+   final AiOutputNotifier aiOutputNotifier = AiOutputNotifier();
   QuizPage({super.key});
-
-  String _input = "";
-
-  set input(String value) {
-    _input = value;
-  }
-
+  
   @override
   // ignore: library_private_types_in_public_api
   _QuizPageState createState() => _QuizPageState();
@@ -89,12 +68,15 @@ class _QuizPageState extends State<QuizPage> {
                   ),
                   GestureDetector(
                     onTap: () {
-                      // Çıkış aksiyonu
+                      
                     },
                     child: IconButton(
                       icon: const Icon(Icons.close, color: Colors.white),
                       onPressed: () {
-                        // Tıklayınca olacak işlemimiz
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const LandingPage()));
                       },
                     ),
                   ),
@@ -123,7 +105,7 @@ class _QuizPageState extends State<QuizPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      QuizPage()._input, //Buraya ai tarafından gelen mesaj yazılacak....
+                      AiOutputNotifier().aiOutput, //Buraya ai tarafından gelen mesaj yazılacak....
                       style: GoogleFonts.poppins(
                         color: Colors.white,
                         fontSize: 20,

@@ -1,30 +1,106 @@
-import 'package:example_for_oua_ai/guiz_page.dart';
-import 'package:google_generative_ai/google_generative_ai.dart';
-import 'package:example_for_oua_ai/landing_page.dart';
+import 'package:dash_chat_2/dash_chat_2.dart';
+import 'package:quizz_ai/features/app/ai_output_notifier.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_gemini/flutter_gemini.dart';
 
-class AI {
-  String _input = "";
+class AIPage extends StatefulWidget {
+  final String initialMessage;
 
-  set input(String value) {
-    _input = value;
+  const AIPage({super.key, required this.initialMessage});
+  
+
+  @override
+  State<AIPage> createState() => _AIPageState();
+}
+
+class _AIPageState extends State<AIPage> {
+  final AiOutputNotifier aiOutputNotifier = AiOutputNotifier();
+  final Gemini gemini = Gemini.instance;
+
+  List<ChatMessage> messages = [];
+
+  ChatUser currentUser = ChatUser(id: "0", firstName: "User");
+  ChatUser geminiUser = ChatUser(
+    id: "1",
+    firstName: "Gemini",
+    profileImage:
+        "https://seeklogo.com/images/G/google-gemini-logo-A5787B2669-seeklogo.com.png",
+  );
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.initialMessage.isNotEmpty) {
+      _sendMessage(ChatMessage(
+        user: currentUser,
+        createdAt: DateTime.now(),
+        text: widget.initialMessage,
+      ));
+    }
   }
 
-  Future<void> main() async {
-    // Access your API key as an environment variable (see "Set up your API key" above)
-    const apiKey = 'AIzaSyDAOa3m7p1rOxwqH8AjrzUM4_238Wzu5gs';
-    // For text-only input, use the gemini-pro model
-    final model = GenerativeModel(
-        model: 'gemini-pro',
-        apiKey: apiKey,
-        generationConfig: GenerationConfig(maxOutputTokens: 200));
-    // Initialize the chat
-    final chat = model.startChat(history: [
-      Content.text(
-          ''), //Burada ön tanımlama yapılabilir.
-      Content.model([TextPart('Merhaba. Ben senin soru botunum')])
-    ]);
-    var content = Content.text(_input);
-    var response = await chat.sendMessage(content);
-    QuizPage().input = response as String;
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        title: const Text(
+          "Gemini Chat",
+        ),
+      ),
+      body: _buildUI(),
+    );
+  }
+
+  Widget _buildUI() {
+    return DashChat(
+      currentUser: currentUser,
+      onSend: _sendMessage,
+      messages: messages,
+    );
+  }
+
+  void _sendMessage(ChatMessage chatMessage) {
+    setState(() {
+      messages = [chatMessage, ...messages];
+    });
+    try {
+      String question = chatMessage.text;
+      gemini
+          .streamGenerateContent(
+        question,
+      )
+          .listen((event) {
+        ChatMessage? lastMessage = messages.firstOrNull;
+        if (lastMessage != null && lastMessage.user == geminiUser) {
+          lastMessage = messages.removeAt(0);
+          String response = event.content?.parts?.fold(
+                  "", (previous, current) => "$previous ${current.text}") ??
+              "";
+          lastMessage.text += response;
+          aiOutputNotifier.updateAiOutput(response); // AI çıktısını güncelle
+          setState(
+            () {
+              messages = [lastMessage!, ...messages];
+            },
+          );
+        } else {
+          String response = event.content?.parts?.fold(
+                  "", (previous, current) => "$previous ${current.text}") ??
+              "";
+          ChatMessage message = ChatMessage(
+            user: geminiUser,
+            createdAt: DateTime.now(),
+            text: response,
+          );
+          setState(() {
+            messages = [message, ...messages];
+          });
+          aiOutputNotifier.updateAiOutput(response); // AI çıktısını güncelle
+        }
+      });
+    } catch (e) {
+      print(e);
+    }
   }
 }

@@ -1,40 +1,19 @@
-import 'package:example_for_oua_ai/ai.dart';
-import 'package:example_for_oua_ai/guiz_page.dart';
+// ignore_for_file: prefer_const_constructors
+
+import 'package:quizz_ai/features/app/ai.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:quizz_ai/features/app/guiz_page.dart';
 
-void main() {
-  runApp(const MyApp());
-  SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        textTheme: GoogleFonts.poppinsTextTheme(
-          Theme.of(context).textTheme,
-        ),
-      ),
-      home: const QuizScreen(),
-    );
-  }
-}
-
-class QuizScreen extends StatefulWidget {
-  const QuizScreen({super.key});
+class LandingPage extends StatefulWidget {
+  const LandingPage({super.key});
 
   @override
   // ignore: library_private_types_in_public_api
-  _QuizScreenState createState() => _QuizScreenState();
+  _LandingPageState createState() => _LandingPageState();
 }
 
-class _QuizScreenState extends State<QuizScreen> {
+class _LandingPageState extends State<LandingPage> {
   final myController = TextEditingController();
 
   @override
@@ -51,7 +30,9 @@ class _QuizScreenState extends State<QuizScreen> {
         leading: IconButton(
           icon: const Icon(Icons.menu),
           iconSize: 30.0,
-          onPressed: () {},
+          onPressed: () {
+            Scaffold.of(context).openDrawer();
+          },
         ),
         actions: <Widget>[
           IconButton(
@@ -164,11 +145,9 @@ class _QuizScreenState extends State<QuizScreen> {
                 // Quiz Oluştur Butonu
                 ElevatedButton(
                   onPressed: () {
-                    AI().input = myController.text;
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>  QuizPage()));
+                    AIPage(initialMessage: "${myController.text} Konusu ile ilgili 4 şıktan oluşan sadece sorunun ve şıkların olduğu bir çıktı ver." );
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => QuizPage()));
                   }, //Oluştur butonu istenen metni ve zorluk seviyesini aı bota iletececek.
                   style: ElevatedButton.styleFrom(
                     padding: const EdgeInsets.symmetric(

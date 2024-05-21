@@ -45,6 +45,8 @@ dependencies:
   google_fonts: ^6.2.1
   flutter_svg: ^2.0.10+1
   image_pixels: ^3.0.2
+  dash_chat_2: ^0.0.20
+  flutter_gemini: ^2.0.3
 
 dev_dependencies:
   flutter_test:
