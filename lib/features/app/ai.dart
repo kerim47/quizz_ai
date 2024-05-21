@@ -19,7 +19,6 @@ class AIPage extends StatefulWidget {
 }
 
 class _AIPageState extends State<AIPage> {
-  bool isFirstVisit = false;
   final AiOutputNotifier aiOutputNotifier = AiOutputNotifier();
   final Gemini gemini = Gemini.instance;
 
@@ -115,12 +114,10 @@ class _AIPageState extends State<AIPage> {
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-              builder: (context) =>
-                  isFirstVisit ? QuizPage() : QuizResultPage(),
+              builder: (context) => QuizPage()
             ),
           );
-          isFirstVisit =
-              true; // İlk ziyaret gerçekleşti, bu yüzden durumu güncelliyoruz
+
         }
       });
     } catch (e) {
