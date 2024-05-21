@@ -1,23 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
-
-void main() {
-  runApp(const QuizResultApp());
-  SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
-}
-
-class QuizResultApp extends StatelessWidget {
-  const QuizResultApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: QuizResultPage(),
-    );
-  }
-}
 
 class QuizResultPage extends StatelessWidget {
   const QuizResultPage({super.key});

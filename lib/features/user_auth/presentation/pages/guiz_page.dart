@@ -1,25 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'dart:async';
-import 'package:example_for_oua_ai/ai.dart';
 
-void main() {
-  runApp(const QuizApp());
-  SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
-}
-
-class QuizApp extends StatelessWidget {
-  const QuizApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return  MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: QuizPage(),
-    );
-  }
-}
 
 // ignore: must_be_immutable
 class QuizPage extends StatefulWidget {
