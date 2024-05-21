@@ -68,6 +68,8 @@ class _AIPageState extends State<AIPage> {
     setState(() {
       messages = [chatMessage, ...messages];
     });
+
+    final aiOutputNotifier = Provider.of<AiOutputNotifier>(context, listen: false);
         
     try {
       String question = chatMessage.text;
@@ -83,6 +85,7 @@ class _AIPageState extends State<AIPage> {
                   "", (previous, current) => "$previous ${current.text}") ??
               "";
           lastMessage.text += response;
+          aiOutputNotifier.updateAiOutput(response); 
           setState(
             () {
               messages = [lastMessage!, ...messages];

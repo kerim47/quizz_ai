@@ -9,4 +9,9 @@ class AiOutputNotifier extends ChangeNotifier {
     _aiOutput = newOutput;
     notifyListeners(); // Değişiklikleri dinleyicilere bildir
   }
+
+   void clearAiOutput() {
+    _aiOutput = "";
+    notifyListeners();
+  }
 }

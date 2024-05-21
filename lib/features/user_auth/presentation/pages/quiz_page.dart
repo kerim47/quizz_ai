@@ -58,7 +58,7 @@ class _QuizPageState extends State<QuizPage> {
     );
   }
 
-  @override
+  
   void dispose() {
     _timer.cancel();
     super.dispose();
@@ -73,7 +73,8 @@ class _QuizPageState extends State<QuizPage> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -81,7 +82,8 @@ class _QuizPageState extends State<QuizPage> {
                     children: [
                       const Icon(Icons.hourglass_empty, color: Colors.white),
                       const SizedBox(width: 8),
-                      Text('$_counter', style: const TextStyle(color: Colors.white)),
+                      Text('$_counter',
+                          style: const TextStyle(color: Colors.white)),
                     ],
                   ),
                   GestureDetector(
@@ -91,7 +93,8 @@ class _QuizPageState extends State<QuizPage> {
                       onPressed: () {
                         Navigator.pushReplacement(
                           context,
-                          MaterialPageRoute(builder: (context) => const LandingPage()),
+                          MaterialPageRoute(
+                              builder: (context) => const LandingPage()),
                         );
                       },
                     ),
@@ -133,7 +136,8 @@ class _QuizPageState extends State<QuizPage> {
                   // Cevapla butonuna basıldığında yapılacak işlemler
                 },
                 style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 20.0, vertical: 10.0),
                   backgroundColor: const Color(0xff0e402d),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10.0),
