@@ -1,5 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:quizz_ai/features/user_auth/presentation/pages/landing_page.dart';
+import 'package:quizz_ai/features/user_auth/presentation/pages/quiz_final_page.dart';
 import 'package:quizz_ai/global/common/consts.dart';
 
 import 'features/user_auth/presentation/pages/login_page.dart';
@@ -42,6 +44,8 @@ class MyApp extends StatelessWidget {
         '/onboard2': (context) => const OnboardingScreen2(),
         '/onboard3': (context) => const OnboardingScreen3(),
         '/quiz': (context) =>  QuizPage(),
+        'landing': (context) => const LandingPage(),
+        'final': (context) => const QuizResultPage(),
       },
     );
   }

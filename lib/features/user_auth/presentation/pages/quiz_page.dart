@@ -10,12 +10,6 @@ class QuizPage extends StatefulWidget {
    final AiOutputNotifier aiOutputNotifier = AiOutputNotifier();
   QuizPage({super.key});
 
-  String _input = "";
-
-  set input(String value) {
-    _input = value;
-  }
-
   @override
   // ignore: library_private_types_in_public_api
   _QuizPageState createState() => _QuizPageState();
@@ -54,7 +48,7 @@ class _QuizPageState extends State<QuizPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 22, 44, 23),
+      backgroundColor: const Color(0xff0e402d),
       body: SafeArea(
         child: Column(
           children: [

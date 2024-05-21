@@ -7,7 +7,7 @@ class QuizResultPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF1A4731),
+      backgroundColor: const Color(0xff0e402d),
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,

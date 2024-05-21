@@ -145,7 +145,7 @@ class _SignInScreenState extends State<SignInScreen> {
     try {
       await _googleSignIn.signIn();
       showToast(message: 'Giriş başarılı');
-      Navigator.pushReplacementNamed(context, '/quiz');
+      Navigator.pushReplacementNamed(context, '/landing');
     } on Exception catch (e) {
       debugPrint('exception->$e');
     }

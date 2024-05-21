@@ -152,7 +152,7 @@ class _LandingPageState extends State<LandingPage> {
                   style: ElevatedButton.styleFrom(
                     padding: const EdgeInsets.symmetric(
                         horizontal: 20.0, vertical: 1.0),
-                    backgroundColor: const Color.fromARGB(255, 1, 41, 3),
+                    backgroundColor: const Color(0xff0e402d),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10.0),
                     ),

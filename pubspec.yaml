@@ -76,6 +76,8 @@ flutter:
     - assets/quizz_ai_elements/
     - assets/quizz_ai_elements/Exported Files/
     - assets/quizz_ai_elements/SVGs/
+    - assets/alt-logo.png
+    - assets/main-logo.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
