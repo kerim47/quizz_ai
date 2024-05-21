@@ -11,6 +11,7 @@ import 'features/user_auth/presentation/pages/quiz_page.dart';
 import 'features/user_auth/presentation/pages/home_page.dart';
 import 'features/user_auth/presentation/pages/onboard_3.dart';
 import 'features/user_auth/presentation/pages/signup_page.dart';
+import 'features/user_auth/presentation/pages/landing_page.dart';
 import 'package:flutter_gemini/flutter_gemini.dart';
 
 import 'firebase_options.dart';
@@ -44,8 +45,8 @@ class MyApp extends StatelessWidget {
         '/onboard2': (context) => const OnboardingScreen2(),
         '/onboard3': (context) => const OnboardingScreen3(),
         '/quiz': (context) =>  QuizPage(),
-        'landing': (context) => const LandingPage(),
-        'final': (context) => const QuizResultPage(),
+        '/landing': (context) => const LandingPage(),
+        '/final': (context) => const QuizResultPage(),
       },
     );
   }

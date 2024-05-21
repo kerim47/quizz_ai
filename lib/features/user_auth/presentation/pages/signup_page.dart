@@ -77,7 +77,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             'Google sign-in successful: ${user.email} ${user.displayName}');
         showToast(message: 'Giriş Başarılı ${user.displayName}');
         Navigator.of(context)
-            .pushNamedAndRemoveUntil('/quiz', (Route<dynamic> route) => false);
+            .pushNamedAndRemoveUntil('/landing', (Route<dynamic> route) => false);
       }
     } on PlatformException catch (e) {
       showToast(
