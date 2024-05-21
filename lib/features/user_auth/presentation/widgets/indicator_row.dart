@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 enum IndicatorStatus { first, second, third }
 
+// ignore: must_be_immutable
 class IndicatorRow extends StatelessWidget {
   final IndicatorStatus indicatorStatus;
   late Color _first = Colors.white;

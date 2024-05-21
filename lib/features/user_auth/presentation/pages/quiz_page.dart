@@ -1,18 +1,16 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:quizz_ai/features/app/ai_final.dart';
 import 'package:quizz_ai/features/app/ai_output_notifier.dart';
 import 'package:quizz_ai/features/user_auth/presentation/pages/landing_page.dart';
-
 import '../../../app/ai.dart';
 
 class QuizPage extends StatefulWidget {
-  const QuizPage({Key? key}) : super(key: key);
+  const QuizPage({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _QuizPageState createState() => _QuizPageState();
 }
 
@@ -62,6 +60,7 @@ class _QuizPageState extends State<QuizPage> {
     );
   }
 
+  @override
   void dispose() {
     _timer.cancel();
     super.dispose();

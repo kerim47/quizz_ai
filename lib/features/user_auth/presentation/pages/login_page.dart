@@ -1,5 +1,4 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -145,6 +144,7 @@ class _SignInScreenState extends State<SignInScreen> {
     try {
       await _googleSignIn.signIn();
       showToast(message: 'Giriş başarılı');
+      // ignore: use_build_context_synchronously
       Navigator.pushReplacementNamed(context, '/landing');
     } on Exception catch (e) {
       debugPrint('exception->$e');
@@ -168,6 +168,7 @@ class _SignInScreenState extends State<SignInScreen> {
 
     if (user != null) {
       showToast(message: "User is successfully signed in");
+      // ignore: use_build_context_synchronously
       Navigator.pushReplacementNamed(context, '/landing');
     }
   }

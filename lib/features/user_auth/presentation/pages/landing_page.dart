@@ -4,7 +4,8 @@ import 'package:flutter/services.dart';
 import 'package:quizz_ai/features/app/ai.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:quizz_ai/features/user_auth/presentation/pages/quiz_page.dart';
+
+import 'contributors_page.dart';
 
 class LandingPage extends StatefulWidget {
   const LandingPage({super.key});
@@ -52,10 +53,10 @@ class _LandingPageState extends State<LandingPage> {
           padding: EdgeInsets.zero,
           children: <Widget>[
             DrawerHeader(
-              child: Text('Menü'),
               decoration: BoxDecoration(
                 color: Colors.blue,
               ),
+              child: Text('Menü'),
             ),
             ListTile(
               title: Text('Ana Ekrana Dön'),
@@ -67,6 +68,17 @@ class _LandingPageState extends State<LandingPage> {
               title: Text('Çıkış'),
               onTap: () {
                 SystemNavigator.pop();
+              },
+            ),
+            ListTile(
+              title: Text('Emeği Geçenler'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ContributorsPage(),
+                  ),
+                );
               },
             ),
           ],
@@ -176,8 +188,9 @@ class _LandingPageState extends State<LandingPage> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) =>
-                            AIPage(initialMessage: "${myController.text} You are a ai for quiz app. Users will give a subject and you will create questions about that subject.Use emojis, one per sentence.Set the question length to a maximum of 5 paragraphs.Use Turkish language.Give the user 4 question options.   Use emoji per sentence in your explanation sentences.Give only 1 question.Dont give the true answer in questions phase.Tüm çıktıyı tek bir metin olarak ver.Kullanıcıya sadece soruyu ve cevapları yaz başka ekstra bir şey söyleme.* kullanma. A-B-C-D Eklemelerini yap."),
+                        builder: (context) => AIPage(
+                            initialMessage:
+                                "${myController.text} You are a ai for quiz app. Users will give a subject and you will create questions about that subject.Use emojis, one per sentence.Set the question length to a maximum of 5 paragraphs.Use Turkish language.Give the user 4 question options.   Use emoji per sentence in your explanation sentences.Give only 1 question.Dont give the true answer in questions phase.Tüm çıktıyı tek bir metin olarak ver.Kullanıcıya sadece soruyu ve cevapları yaz başka ekstra bir şey söyleme.* kullanma. A-B-C-D Eklemelerini yap."),
                       ),
                     );
                   }, //Oluştur butonu istenen metni ve zorluk seviyesini aı bota iletececek.
