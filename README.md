@@ -8,7 +8,11 @@
 
 ## 📷 Proje Ekran Görüntüsü
 
-![Trailer List Screenshot](https://github.com/yavuzkarakus/laCasaDePapelTrailerPage/blob/master/la-casa-de-papel-trailer-list-page-screenshot.png)
+![Quizz.ai App Mock 3](https://github.com/kerim47/quizz_ai/blob/main/screenshots/quizz.ai-mock3.jpg)
+![Quizz.ai App Mock 1](https://github.com/kerim47/quizz_ai/blob/main/screenshots/quizz.ai-mock1.jpg)
+![Quizz.ai App Mock 4](https://github.com/kerim47/quizz_ai/blob/main/screenshots/quizz.ai-mock4.jpg)
+![Quizz.ai App Mock 5](https://github.com/kerim47/quizz_ai/blob/main/screenshots/quizz.ai-mock5.jpg)
+![Quizz.ai App Mock 2](https://github.com/kerim47/quizz_ai/blob/main/screenshots/quizz.ai-mock2.jpg)
 
 ## Proje Özellikleri
 
