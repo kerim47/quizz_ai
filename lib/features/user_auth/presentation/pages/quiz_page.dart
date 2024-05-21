@@ -3,8 +3,11 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:quizz_ai/features/app/ai_final.dart';
 import 'package:quizz_ai/features/app/ai_output_notifier.dart';
 import 'package:quizz_ai/features/user_auth/presentation/pages/landing_page.dart';
+
+import '../../../app/ai.dart';
 
 class QuizPage extends StatefulWidget {
   const QuizPage({Key? key}) : super(key: key);
@@ -41,14 +44,15 @@ class _QuizPageState extends State<QuizPage> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Süreniz Bitti'),
-          content: Text('Süreniz doldu, ana menüye yönlendiriliyorsunuz.'),
+          title: const Text('Süreniz Bitti'),
+          content:
+              const Text('Süreniz doldu, ana menüye yönlendiriliyorsunuz.'),
           actions: <Widget>[
             TextButton(
-              child: Text('Tamam'),
+              child: const Text('Tamam'),
               onPressed: () {
                 Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(builder: (context) => LandingPage()),
+                  MaterialPageRoute(builder: (context) => const LandingPage()),
                 );
               },
             ),
@@ -58,7 +62,6 @@ class _QuizPageState extends State<QuizPage> {
     );
   }
 
-  
   void dispose() {
     _timer.cancel();
     super.dispose();
@@ -133,7 +136,71 @@ class _QuizPageState extends State<QuizPage> {
               padding: const EdgeInsets.all(16.0),
               child: ElevatedButton(
                 onPressed: () {
-                  // Cevapla butonuna basıldığında yapılacak işlemler
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: const Text('Cevaplar'),
+                        content: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            ElevatedButton(
+                              child: const Text('A'),
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const AIPage(
+                                        initialMessage:
+                                            "A => Bu şıkkın doğrulunu kontrol et ve çok kısa bir paragrafla soruyu açıkla."),
+                                  ),
+                                );
+                              },
+                            ),
+                            ElevatedButton(
+                              child: const Text('B'),
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const AIPage(
+                                        initialMessage:
+                                            "B => Bu şıkkın doğrulunu kontrol et ve çok kısa bir paragrafla soruyu açıkla."),
+                                  ),
+                                );
+                              },
+                            ),
+                            ElevatedButton(
+                              child: const Text('C'),
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const AIPage(
+                                        initialMessage:
+                                            "C => Bu şıkkın doğrulunu kontrol et ve çok kısa bir paragrafla soruyu açıkla."),
+                                  ),
+                                );
+                              },
+                            ),
+                            ElevatedButton(
+                              child: const Text('D'),
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const AIPage(
+                                        initialMessage:
+                                            "D => Bu şıkkın doğrulunu kontrol et ve çok kısa bir paragrafla soruyu açıkla."),
+                                  ),
+                                );
+                              },
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  );
                 },
                 style: ElevatedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(

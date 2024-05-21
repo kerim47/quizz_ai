@@ -5,21 +5,20 @@ import 'package:provider/provider.dart';
 import 'package:quizz_ai/features/app/ai_output_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gemini/flutter_gemini.dart';
-import 'package:quizz_ai/features/user_auth/presentation/pages/quiz_final_page.dart';
 
-import '../user_auth/presentation/pages/quiz_page.dart';
+import '../user_auth/presentation/pages/quiz_final_page.dart';
 
-class AIPage extends StatefulWidget {
+
+class AIPageFinal extends StatefulWidget {
   final String initialMessage;
 
-  const AIPage({super.key, required this.initialMessage});
+  const AIPageFinal({super.key, required this.initialMessage});
 
   @override
-  State<AIPage> createState() => _AIPageState();
+  State<AIPageFinal> createState() => _AIPageFinalState();
 }
 
-class _AIPageState extends State<AIPage> {
-  bool isFirstVisit = false;
+class _AIPageFinalState extends State<AIPageFinal> {
   final AiOutputNotifier aiOutputNotifier = AiOutputNotifier();
   final Gemini gemini = Gemini.instance;
 
@@ -71,9 +70,8 @@ class _AIPageState extends State<AIPage> {
       messages = [chatMessage, ...messages];
     });
 
-    final aiOutputNotifier =
-        Provider.of<AiOutputNotifier>(context, listen: false);
-
+    final aiOutputNotifier = Provider.of<AiOutputNotifier>(context, listen: false);
+        
     try {
       String question = chatMessage.text;
       gemini
@@ -83,6 +81,7 @@ class _AIPageState extends State<AIPage> {
           .listen((event) {
         ChatMessage? lastMessage = messages.firstOrNull;
         if (lastMessage != null && lastMessage.user == geminiUser) {
+
           lastMessage = messages.removeAt(0);
 
           String response = event.content?.parts?.fold(
@@ -96,11 +95,14 @@ class _AIPageState extends State<AIPage> {
               messages = [lastMessage!, ...messages];
             },
           );
+
         } else {
+
           String response = event.content?.parts?.fold(
                   "", (previous, current) => "$previous ${current.text}") ??
               "";
 
+          
           ChatMessage message = ChatMessage(
             user: geminiUser,
             createdAt: DateTime.now(),
@@ -112,15 +114,13 @@ class _AIPageState extends State<AIPage> {
             messages = [message, ...messages];
           });
 
+
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-              builder: (context) =>
-                  isFirstVisit ? QuizPage() : QuizResultPage(),
+              builder: (context) => QuizResultPage(),
             ),
           );
-          isFirstVisit =
-              true; // İlk ziyaret gerçekleşti, bu yüzden durumu güncelliyoruz
         }
       });
     } catch (e) {
