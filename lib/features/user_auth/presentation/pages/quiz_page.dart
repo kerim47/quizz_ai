@@ -1,25 +1,21 @@
-import 'package:quizz_ai/features/app/ai_output_notifier.dart';
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'dart:async';
+import 'package:provider/provider.dart';
+import 'package:quizz_ai/features/app/ai_output_notifier.dart';
 import 'package:quizz_ai/features/user_auth/presentation/pages/landing_page.dart';
 
-
-// ignore: must_be_immutable
 class QuizPage extends StatefulWidget {
-   final AiOutputNotifier aiOutputNotifier = AiOutputNotifier();
-  QuizPage({super.key});
+  const QuizPage({Key? key}) : super(key: key);
 
   @override
-  // ignore: library_private_types_in_public_api
   _QuizPageState createState() => _QuizPageState();
 }
 
 class _QuizPageState extends State<QuizPage> {
-  int _counter = 60;
+  int _counter = 1000;
   late Timer _timer;
-  final int _currentQuestion = 1;
-  final int _totalQuestions = 4;
 
   @override
   void initState() {
@@ -34,9 +30,32 @@ class _QuizPageState extends State<QuizPage> {
           _counter--;
         } else {
           _timer.cancel();
+          showTimeUpDialog();
         }
       });
     });
+  }
+
+  void showTimeUpDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Süreniz Bitti'),
+          content: Text('Süreniz doldu, ana menüye yönlendiriliyorsunuz.'),
+          actions: <Widget>[
+            TextButton(
+              child: Text('Tamam'),
+              onPressed: () {
+                Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(builder: (context) => LandingPage()),
+                );
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -51,10 +70,10 @@ class _QuizPageState extends State<QuizPage> {
       backgroundColor: const Color(0xff0e402d),
       body: SafeArea(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -62,141 +81,75 @@ class _QuizPageState extends State<QuizPage> {
                     children: [
                       const Icon(Icons.hourglass_empty, color: Colors.white),
                       const SizedBox(width: 8),
-                      Text('$_counter',
-                          style: const TextStyle(color: Colors.white)),
+                      Text('$_counter', style: const TextStyle(color: Colors.white)),
                     ],
                   ),
                   GestureDetector(
-                    onTap: () {
-                      
-                    },
+                    onTap: () {},
                     child: IconButton(
                       icon: const Icon(Icons.close, color: Colors.white),
                       onPressed: () {
                         Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const LandingPage()));
+                          context,
+                          MaterialPageRoute(builder: (context) => const LandingPage()),
+                        );
                       },
                     ),
                   ),
                 ],
               ),
             ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(1.0),
-                  child: Align(
-                    alignment: Alignment.center,
-                    child: Text(
-                      'Soru $_currentQuestion/$_totalQuestions',
-                      style: const TextStyle(color: Colors.white, fontSize: 20),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      AiOutputNotifier().aiOutput, //Buraya ai tarafından gelen mesaj yazılacak....
-                      style: GoogleFonts.poppins(
+            Consumer<AiOutputNotifier>(
+              builder: (context, aiOutputNotifier, child) {
+                return Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.all(15.0),
+                    child: Container(
+                      decoration: BoxDecoration(
                         color: Colors.white,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
+                        borderRadius: BorderRadius.circular(10.0),
                       ),
-                      textAlign: TextAlign.center,
+                      padding: const EdgeInsets.all(5.0),
+                      child: Center(
+                        child: Text(
+                          aiOutputNotifier.aiOutput,
+                          style: GoogleFonts.poppins(
+                            color: Colors.black,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
                     ),
-                    const SizedBox(height: 24),
-                    AnswerButton(
-                        text: 'A',
-                        textColor: const Color.fromARGB(255, 20, 89, 25),
-                        onTap: () {}),
-                    AnswerButton(
-                        text: 'B',
-                        textColor: const Color.fromARGB(255, 1, 41, 3),
-                        onTap: () {}),
-                    AnswerButton(
-                        text: 'C',
-                        textColor: const Color.fromARGB(255, 1, 41, 3),
-                        onTap: () {}),
-                    AnswerButton(
-                        text: 'D',
-                        textColor: const Color.fromARGB(255, 1, 41, 3),
-                        onTap: () {}),
-
-                    //Answer buttonlar ile aı botuna şıklar iletilecek.
-                  ],
-                ),
-              ),
-            ),
-            Container(
-              margin: const EdgeInsets.only(bottom: 100.0),
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-                child: ElevatedButton(
-                  onPressed: () {
-                    // Cevapla Butonu işlevi
-                  },
-                  style: ElevatedButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(5.0)),
-                    backgroundColor: Colors.black,
                   ),
-                  child: Container(
-                    width: double.infinity,
-                    padding: const EdgeInsets.symmetric(vertical: 15.0),
-                    child: Text(
-                      'Cevapla',
-                      textAlign: TextAlign.center,
-                      style: GoogleFonts.poppins(color: Colors.white),
-                    ),
+                );
+              },
+            ),
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: ElevatedButton(
+                onPressed: () {
+                  // Cevapla butonuna basıldığında yapılacak işlemler
+                },
+                style: ElevatedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+                  backgroundColor: const Color(0xff0e402d),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                ),
+                child: Text(
+                  'Cevapla',
+                  style: GoogleFonts.poppins(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
                   ),
                 ),
               ),
             ),
           ],
-        ),
-      ),
-    );
-  }
-}
-
-class AnswerButton extends StatelessWidget {
-  final String text;
-  final VoidCallback onTap;
-
-  const AnswerButton(
-      {super.key,
-      required this.text,
-      required this.onTap,
-      required Color textColor});
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
-      child: ElevatedButton(
-        onPressed: onTap,
-        style: ElevatedButton.styleFrom(
-            iconColor: Colors.white,
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(5.0))),
-        child: Container(
-          width: double.infinity,
-          padding: const EdgeInsets.symmetric(vertical: 16.0),
-          child: Text(
-            text,
-            textAlign: TextAlign.center,
-            style: const TextStyle(fontSize: 18),
-          ),
         ),
       ),
     );

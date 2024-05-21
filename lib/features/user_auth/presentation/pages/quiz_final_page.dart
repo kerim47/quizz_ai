@@ -34,7 +34,7 @@ class QuizResultPage extends StatelessWidget {
             const SizedBox(height: 20),
             const Icon(
               Icons.check_circle,
-              color: Color(0xFF8BC34A),
+              color: Color(0xFF67A834),
               size: 50,
             ),
             Expanded(
@@ -53,7 +53,7 @@ class QuizResultPage extends StatelessWidget {
                   Container(
                     padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 20),
                     decoration: BoxDecoration(
-                      color: const Color(0xFF8BC34A),
+                      color: const Color(0xFF67A834),
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: Text(

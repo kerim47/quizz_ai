@@ -1,13 +1,17 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:dash_chat_2/dash_chat_2.dart';
+import 'package:provider/provider.dart';
 import 'package:quizz_ai/features/app/ai_output_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gemini/flutter_gemini.dart';
+
+import '../user_auth/presentation/pages/quiz_page.dart';
 
 class AIPage extends StatefulWidget {
   final String initialMessage;
 
   const AIPage({super.key, required this.initialMessage});
-  
 
   @override
   State<AIPage> createState() => _AIPageState();
@@ -64,6 +68,10 @@ class _AIPageState extends State<AIPage> {
     setState(() {
       messages = [chatMessage, ...messages];
     });
+
+    final aiOutputNotifier =
+        Provider.of<AiOutputNotifier>(context, listen: false);
+
     try {
       String question = chatMessage.text;
       gemini
@@ -97,6 +105,14 @@ class _AIPageState extends State<AIPage> {
             messages = [message, ...messages];
           });
           aiOutputNotifier.updateAiOutput(response); // AI çıktısını güncelle
+
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => QuizPage(
+              ),
+            ),
+          );
         }
       });
     } catch (e) {

@@ -4,6 +4,7 @@ import 'package:quizz_ai/features/user_auth/presentation/pages/landing_page.dart
 import 'package:quizz_ai/features/user_auth/presentation/pages/quiz_final_page.dart';
 import 'package:quizz_ai/global/common/consts.dart';
 
+import 'features/app/ai_output_notifier.dart';
 import 'features/user_auth/presentation/pages/login_page.dart';
 import 'features/user_auth/presentation/pages/onboard_1.dart';
 import 'features/user_auth/presentation/pages/onboard_2.dart';
@@ -11,8 +12,8 @@ import 'features/user_auth/presentation/pages/quiz_page.dart';
 import 'features/user_auth/presentation/pages/home_page.dart';
 import 'features/user_auth/presentation/pages/onboard_3.dart';
 import 'features/user_auth/presentation/pages/signup_page.dart';
-import 'features/user_auth/presentation/pages/landing_page.dart';
 import 'package:flutter_gemini/flutter_gemini.dart';
+import 'package:provider/provider.dart';
 
 import 'firebase_options.dart';
 
@@ -24,7 +25,14 @@ Future main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(const MyApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => AiOutputNotifier()),
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -36,7 +44,8 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Quizz AI',
       routes: {
-        '/': (context) => const OnboardingScreen1(), // ilk başladığında bu kod çalışacak
+        '/': (context) =>
+            const OnboardingScreen1(), // ilk başladığında bu kod çalışacak
         // '/': (context) => SignUpScreen(),
         '/login': (context) => const SignInScreen(),
         '/signup': (context) => SignUpScreen(),
@@ -44,7 +53,7 @@ class MyApp extends StatelessWidget {
         '/onboard1': (context) => const OnboardingScreen1(),
         '/onboard2': (context) => const OnboardingScreen2(),
         '/onboard3': (context) => const OnboardingScreen3(),
-        '/quiz': (context) =>  QuizPage(),
+        '/quiz': (context) => QuizPage(),
         '/landing': (context) => const LandingPage(),
         '/final': (context) => const QuizResultPage(),
       },

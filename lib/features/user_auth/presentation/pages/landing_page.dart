@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:flutter/services.dart';
 import 'package:quizz_ai/features/app/ai.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -27,13 +28,15 @@ class _LandingPageState extends State<LandingPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.menu),
-          iconSize: 30.0,
-          onPressed: () {
-            Scaffold.of(context).openDrawer();
-          },
-        ),
+        leading: Builder(builder: (BuildContext context) {
+          return IconButton(
+            icon: const Icon(Icons.menu),
+            iconSize: 30.0,
+            onPressed: () {
+              Scaffold.of(context).openDrawer();
+            },
+          );
+        }),
         actions: <Widget>[
           IconButton(
             icon: const Icon(
@@ -43,6 +46,31 @@ class _LandingPageState extends State<LandingPage> {
             onPressed: () {},
           )
         ],
+      ),
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            DrawerHeader(
+              child: Text('Menü'),
+              decoration: BoxDecoration(
+                color: Colors.blue,
+              ),
+            ),
+            ListTile(
+              title: Text('Ana Ekrana Dön'),
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              title: Text('Çıkış'),
+              onTap: () {
+                SystemNavigator.pop();
+              },
+            ),
+          ],
+        ),
       ),
       body: SafeArea(
         child: Center(
@@ -56,7 +84,7 @@ class _LandingPageState extends State<LandingPage> {
                   'assets/main-logo.png', // asset yolumuz burada
                   height: 60,
                 ),
-                const SizedBox(height: 100.0),
+                const SizedBox(height: 50.0),
                 // Kullanılacak Metin
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -145,9 +173,13 @@ class _LandingPageState extends State<LandingPage> {
                 // Quiz Oluştur Butonu
                 ElevatedButton(
                   onPressed: () {
-                    AIPage(initialMessage: "${myController.text} Konusu ile ilgili 4 şıktan oluşan sadece sorunun ve şıkların olduğu bir çıktı ver." );
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => QuizPage()));
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            AIPage(initialMessage: "${myController.text} You are a ai for quiz app. Users will give a subject and you will create questions about that subject.Use emojis, one per sentence.Set the question length to a maximum of 5 paragraphs.Use Turkish language.Give the user 4 question options.   Use emoji per sentence in your explanation sentences.Give only 1 question.Dont give the true answer in questions phase.Tüm çıktıyı tek bir metin olarak ver.Kullanıcıya sadece soruyu ve cevapları yaz başka ekstra bir şey söyleme."),
+                      ),
+                    );
                   }, //Oluştur butonu istenen metni ve zorluk seviyesini aı bota iletececek.
                   style: ElevatedButton.styleFrom(
                     padding: const EdgeInsets.symmetric(

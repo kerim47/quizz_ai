@@ -168,7 +168,7 @@ class _SignInScreenState extends State<SignInScreen> {
 
     if (user != null) {
       showToast(message: "User is successfully signed in");
-      Navigator.pushReplacementNamed(context, '/landindg');
+      Navigator.pushReplacementNamed(context, '/landing');
     }
   }
 }
