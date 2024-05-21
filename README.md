@@ -1,16 +1,29 @@
-# quizz_ai
+# 🏆 Proje Adı: Quizz.ai Yapay Zeka Destekli Quiz Uygulaması
 
-A new Flutter project.
+🤩 Merhabalar herkese!
 
-## Getting Started
+## 🗿 Proje Amacı
 
-This project is a starting point for a Flutter application.
+💯 Google Oyun ve Uygulama Akademisi Flutter Grup 79 olarak, takım arkadaşlarımızla birlikte yapay zeka destekli bir quiz uygulaması geliştirmeye karar verdik. "Bilginin Gücü" temalı bu projede, bilgimizi en iyi şekilde yansıtabilmek için quiz formatını tercih ettik. Umarız beğenirsiniz.
 
-A few resources to get you started if this is your first Flutter project:
+## 📷 Proje Ekran Görüntüsü
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+![Trailer List Screenshot](https://github.com/yavuzkarakus/laCasaDePapelTrailerPage/blob/master/la-casa-de-papel-trailer-list-page-screenshot.png)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Proje Özellikleri
+
+🚀 Bu projenin ana özellikleri şunlardır:
+
+- Orijinal ve akıcı UX/UI tasarım
+- Firebase ile kullanıcı girişi eklentisi
+- Gemini API ile yapay zeka eklentisi
+
+## Notlar
+
+⭐ Projeyi beğendiyseniz, lütfen yıldız vermeyi unutmayın!
+
+## 🚩 Katkıda Bulunanlar
+
+- Hüseyin Eren Ertürk - [@huseyineneserturk](https://github.com/huseyineneserturk)
+- Abdülkerim Akan - [@kerim47](https://github.com/kerim47)
+- Yavuz Karakuş - [@yavuzkarakus](https://github.com/yavuzkarakus)
