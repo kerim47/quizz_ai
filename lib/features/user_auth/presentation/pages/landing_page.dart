@@ -177,7 +177,7 @@ class _LandingPageState extends State<LandingPage> {
                       context,
                       MaterialPageRoute(
                         builder: (context) =>
-                            AIPage(initialMessage: "${myController.text} You are a ai for quiz app. Users will give a subject and you will create questions about that subject.Use emojis, one per sentence.Set the question length to a maximum of 5 paragraphs.Use Turkish language.Give the user 4 question options.   Use emoji per sentence in your explanation sentences.Give only 1 question.Dont give the true answer in questions phase.Tüm çıktıyı tek bir metin olarak ver.Kullanıcıya sadece soruyu ve cevapları yaz başka ekstra bir şey söyleme."),
+                            AIPage(initialMessage: "${myController.text} You are a ai for quiz app. Users will give a subject and you will create questions about that subject.Use emojis, one per sentence.Set the question length to a maximum of 5 paragraphs.Use Turkish language.Give the user 4 question options.   Use emoji per sentence in your explanation sentences.Give only 1 question.Dont give the true answer in questions phase.Tüm çıktıyı tek bir metin olarak ver.Kullanıcıya sadece soruyu ve cevapları yaz başka ekstra bir şey söyleme.* kullanma"),
                       ),
                     );
                   }, //Oluştur butonu istenen metni ve zorluk seviyesini aı bota iletececek.

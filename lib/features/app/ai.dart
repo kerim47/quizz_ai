@@ -68,10 +68,7 @@ class _AIPageState extends State<AIPage> {
     setState(() {
       messages = [chatMessage, ...messages];
     });
-
-    final aiOutputNotifier =
-        Provider.of<AiOutputNotifier>(context, listen: false);
-
+        
     try {
       String question = chatMessage.text;
       gemini
@@ -86,7 +83,6 @@ class _AIPageState extends State<AIPage> {
                   "", (previous, current) => "$previous ${current.text}") ??
               "";
           lastMessage.text += response;
-          aiOutputNotifier.updateAiOutput(response); // AI çıktısını güncelle
           setState(
             () {
               messages = [lastMessage!, ...messages];
@@ -109,8 +105,7 @@ class _AIPageState extends State<AIPage> {
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-              builder: (context) => QuizPage(
-              ),
+              builder: (context) => QuizPage(),
             ),
           );
         }
