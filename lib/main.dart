@@ -1,6 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_gemini/flutter_gemini.dart';
+import 'package:quizz_ai/global/common/consts.dart';
 
 import 'features/user_auth/presentation/pages/guiz_page.dart';
 import 'features/user_auth/presentation/pages/landing_page.dart';
@@ -19,6 +21,7 @@ Future main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  Gemini.init(apiKey: gemini_api_key2);
   runApp(const MyApp());
 }
 

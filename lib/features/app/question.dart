@@ -1,21 +1,32 @@
-class Question {
-  final String question;
-  final List<String> options;
-  final int correctAnswerIndex;
+class Quiz {
+  List<Soru> sorular;
 
-  Question({
-    required this.question,
-    required this.options,
-    required this.correctAnswerIndex,
-  });
+  Quiz({required this.sorular});
+
+  factory Quiz.fromJson(Map<String, dynamic> json) {
+    var soruList = json['sorular'] as List;
+    List<Soru> sorular = soruList.map((soru) => Soru.fromJson(soru)).toList();
+
+    return Quiz(sorular: sorular);
+  }
 }
 
-class Quiz {
-  final String title;
-  final List<Question> questions;
+class Soru {
+  String soru;
+  List<String> secenekler;
+  String cevap;
 
-  Quiz({
-    required this.title,
-    required this.questions,
+  Soru({
+    required this.soru,
+    required this.secenekler,
+    required this.cevap,
   });
+
+  factory Soru.fromJson(Map<String, dynamic> json) {
+    return Soru(
+      soru: json['soru'],
+      secenekler: List<String>.from(json['secenekler']),
+      cevap: json['cevap'],
+    );
+  }
 }

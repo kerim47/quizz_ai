@@ -1,6 +1,12 @@
+import 'dart:convert';
+import 'dart:js_interop';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_gemini/flutter_gemini.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../../app/question.dart';
 import 'guiz_page.dart';
 
 class QuizScreen extends StatefulWidget {
@@ -13,6 +19,74 @@ class QuizScreen extends StatefulWidget {
 
 class _QuizScreenState extends State<QuizScreen> {
   final myController = TextEditingController();
+  final Gemini gemini = Gemini.instance;
+
+  void extractJsonFromMarkdown(String markdownText) {
+    RegExp regex = RegExp(r'```json(.*?)```', dotAll: true);
+    Iterable<Match> matches = regex.allMatches(markdownText);
+
+    for (Match match in matches) {
+      String jsonStr = match.group(1)!.trim();
+      if (jsonStr != null && jsonStr.isNotEmpty) {
+        try {
+          Map<String, dynamic> jsonData = jsonDecode(jsonStr);
+          print('JSON Data:');
+          print(jsonData);
+          // Burada JSON verisini istediğiniz gibi kullanabilirsiniz
+          for (var soru in jsonData['sorular']) {
+            print('Soru: ${soru['soru']}');
+            print('Seçenekler: ${soru['secenekler']}');
+            print('Cevap: ${soru['cevap']}');
+            print('-----------------------------------------');
+          }
+        } catch (e) {
+          print('Hata: JSON çözümlenirken bir hata oluştu.');
+        }
+      }
+    }
+  }
+
+  Future<void> generateQuiz() async {
+    final inputText = myController.text;
+
+    if (inputText.isEmpty) {
+      return;
+    }
+
+    setState(() {
+      // Optionally set a loading state here if needed
+    });
+    try {
+      String question = 'ekonomi, siyaset, finans';
+      String all_question =
+          '''$question ile ilgili 10 soru 4 şık ve cevaplarını döndür. Json formatında istiyorum.''';
+      gemini.streamGenerateContent(all_question).listen((event) {
+        debugPrint('-----   Gerçek değerler   ---------------');
+        debugPrint(event.output);
+        debugPrint('-----------------------------------------');
+        // var jsonData = jsonDecode();
+        // print(event.output!.replaceFirst('json', ''));
+        // extractJsonFromMarkdown(event.output ?? '');
+        // String? str = event.output ?? '';
+        // String cleanedStr = str.replaceFirst('json', '');
+        // print(cleanedStr);
+        // Quiz quiz = Quiz.fromJson(jsonData);
+        // // Quiz nesnesini kullanma örneği
+        // print('Toplam soru sayısı: ${quiz.sorular.length}');
+        // print('İlk soru: ${quiz.sorular[0].soru}');
+        // print('İlk sorunun cevabı: ${quiz.sorular[0].cevap}');
+        // debugPrint(event.output);
+        // String response = event.content?.parts?.fold(
+        //         '', (previous, current) => "$previous ${current.text}") ??
+        //     "";
+        setState(() {
+          // myController.text = response;
+        });
+      });
+    } catch (e) {
+      debugPrint(e.toString());
+    }
+  }
 
   @override
   void dispose() {
@@ -144,11 +218,13 @@ class _QuizScreenState extends State<QuizScreen> {
                       const SizedBox(height: 30.0),
                       // Quiz Oluştur Butonu
                       ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => QuizPage()));
+                        onPressed: () async {
+                          debugPrint(myController.text);
+                          generateQuiz();
+                          // Navigator.push(
+                          //     context,
+                          //     MaterialPageRoute(
+                          //         builder: (context) => QuizPage()));
                         }, // Oluştur butonu istenen metni ve zorluk seviyesini aı bota iletecek.
                         style: ElevatedButton.styleFrom(
                           padding: const EdgeInsets.symmetric(
@@ -188,5 +264,50 @@ class _QuizScreenState extends State<QuizScreen> {
         ),
       ),
     );
+  }
+}
+
+class Question {
+  List<Sorular>? sorular;
+
+  Question({this.sorular});
+
+  Question.fromJson(Map<String, dynamic> json) {
+    if (json['sorular'] != null) {
+      sorular = <Sorular>[];
+      json['sorular'].forEach((v) {
+        sorular!.add(Sorular.fromJson(v));
+      });
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (sorular != null) {
+      data['sorular'] = sorular!.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class Sorular {
+  String? soru;
+  List<String>? secenekler;
+  String? cevap;
+
+  Sorular({this.soru, this.secenekler, this.cevap});
+
+  Sorular.fromJson(Map<String, dynamic> json) {
+    soru = json['soru'];
+    secenekler = json['secenekler'].cast<String>();
+    cevap = json['cevap'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['soru'] = soru;
+    data['secenekler'] = secenekler;
+    data['cevap'] = cevap;
+    return data;
   }
 }
