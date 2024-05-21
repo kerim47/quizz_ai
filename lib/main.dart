@@ -41,7 +41,7 @@ class MyApp extends StatelessWidget {
         '/onboard1': (context) => const OnboardingScreen1(),
         '/onboard2': (context) => const OnboardingScreen2(),
         '/onboard3': (context) => const OnboardingScreen3(),
-        '/quiz': (context) => const QuizScreen(),
+        '/quiz': (context) =>  QuizPage(),
       },
     );
   }
