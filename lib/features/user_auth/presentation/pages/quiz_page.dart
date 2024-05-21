@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:quizz_ai/features/app/ai_final.dart';
 import 'package:quizz_ai/features/app/ai_output_notifier.dart';
 import 'package:quizz_ai/features/user_auth/presentation/pages/landing_page.dart';
 import '../../../app/ai.dart';
@@ -149,7 +150,7 @@ class _QuizPageState extends State<QuizPage> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => const AIPage(
+                                    builder: (context) => const AIPageFinal(
                                         initialMessage:
                                             "A => Bu şıkkın doğrulunu kontrol et ve çok kısa bir paragrafla soruyu açıkla."),
                                   ),
@@ -162,7 +163,7 @@ class _QuizPageState extends State<QuizPage> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => const AIPage(
+                                    builder: (context) => const AIPageFinal(
                                         initialMessage:
                                             "B => Bu şıkkın doğrulunu kontrol et ve çok kısa bir paragrafla soruyu açıkla."),
                                   ),
@@ -175,7 +176,7 @@ class _QuizPageState extends State<QuizPage> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => const AIPage(
+                                    builder: (context) => const AIPageFinal(
                                         initialMessage:
                                             "C => Bu şıkkın doğrulunu kontrol et ve çok kısa bir paragrafla soruyu açıkla."),
                                   ),
@@ -188,7 +189,7 @@ class _QuizPageState extends State<QuizPage> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => const AIPage(
+                                    builder: (context) => const AIPageFinal(
                                         initialMessage:
                                             "D => Bu şıkkın doğrulunu kontrol et ve çok kısa bir paragrafla soruyu açıkla."),
                                   ),
