@@ -28,6 +28,7 @@ class _LandingPageState extends State<LandingPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         leading: Builder(builder: (BuildContext context) {
           return IconButton(
