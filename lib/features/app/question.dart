@@ -1,32 +1,44 @@
-class Quiz {
-  List<Soru> sorular;
+class Question {
+  List<Sorular>? sorular;
 
-  Quiz({required this.sorular});
+  Question({this.sorular});
 
-  factory Quiz.fromJson(Map<String, dynamic> json) {
-    var soruList = json['sorular'] as List;
-    List<Soru> sorular = soruList.map((soru) => Soru.fromJson(soru)).toList();
+  Question.fromJson(Map<String, dynamic> json) {
+    if (json['sorular'] != null) {
+      sorular = <Sorular>[];
+      json['sorular'].forEach((v) {
+        sorular!.add(Sorular.fromJson(v));
+      });
+    }
+  }
 
-    return Quiz(sorular: sorular);
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (sorular != null) {
+      data['sorular'] = sorular!.map((v) => v.toJson()).toList();
+    }
+    return data;
   }
 }
 
-class Soru {
-  String soru;
-  List<String> secenekler;
-  String cevap;
+class Sorular {
+  String? soru;
+  List<String>? secenekler;
+  String? cevap;
 
-  Soru({
-    required this.soru,
-    required this.secenekler,
-    required this.cevap,
-  });
+  Sorular({this.soru, this.secenekler, this.cevap});
 
-  factory Soru.fromJson(Map<String, dynamic> json) {
-    return Soru(
-      soru: json['soru'],
-      secenekler: List<String>.from(json['secenekler']),
-      cevap: json['cevap'],
-    );
+  Sorular.fromJson(Map<String, dynamic> json) {
+    soru = json['soru'];
+    secenekler = json['secenekler'].cast<String>();
+    cevap = json['cevap'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['soru'] = soru;
+    data['secenekler'] = secenekler;
+    data['cevap'] = cevap;
+    return data;
   }
 }
