@@ -23,6 +23,7 @@ class QuizScreen extends StatefulWidget {
 class _QuizScreenState extends State<QuizScreen> {
   final myController = TextEditingController();
   final Gemini gemini = Gemini.instance;
+  String zorluk = 'Orta';
   Question? result = null;
   bool _loading = false;
 
@@ -69,11 +70,12 @@ class _QuizScreenState extends State<QuizScreen> {
 
     try {
       String answer = '';
-      String question = 'ekonomi, siyaset, finans';
-      String allQuestion = '$question $prompt';
+      String question = myController.text;
+      String allQuestion ='$question ile ilgili 4 soru 4 şık ve cevaplarını döndür. $prompt';
       gemini.streamGenerateContent(allQuestion).listen((event) {
         answer += event.output ?? '';
       }, onDone: () async {
+        debugPrint('Cevap: $answer');
         final String son = answer
             .replaceAll('json', '')
             .replaceAll('```', '')
@@ -201,8 +203,15 @@ class _QuizScreenState extends State<QuizScreen> {
                                   ),
                                 ),
                                 DropdownButtonFormField<String>(
-                                  value: 'Orta',
-                                  onChanged: (String? newValue) {},
+                                  value: zorluk,
+                                  onChanged: (String? newValue) {
+                                    setState(() {
+                                      zorluk = newValue!;
+                                      if (kDebugMode) {
+                                        print(newValue);
+                                      }
+                                    });
+                                  },
                                   items: <String>['Kolay', 'Orta', 'Zor']
                                       .map<DropdownMenuItem<String>>(
                                           (String value) {
