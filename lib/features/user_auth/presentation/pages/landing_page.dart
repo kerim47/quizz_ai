@@ -26,14 +26,17 @@ class _QuizScreenState extends State<QuizScreen> {
   String zorluk = 'Orta';
   Question? result = null;
   bool _loading = false;
+  bool _yazdirildi = false;
 
   Future<void> writeResultToJson(String result) async {
     try {
       final directory = await getApplicationDocumentsDirectory();
       final file = File('${directory.path}/result.json');
       await file.writeAsString(result);
+      _yazdirildi = true;
       debugPrint('Sonuç başarıyla yazıldı: ${file.path}');
     } catch (e) {
+      _yazdirildi = false;
       debugPrint('Hata: $e');
     }
   }
@@ -43,8 +46,9 @@ class _QuizScreenState extends State<QuizScreen> {
       final directory = await getApplicationDocumentsDirectory();
       final file = File('${directory.path}/result.json');
       String content = await file.readAsString();
-      // var decode = jsonDecode(content);
-      result = Question.fromJson(jsonDecode(content));
+      debugPrint(content);
+      var decode = jsonDecode(content);
+      result = Question.fromJson(decode);
       if (kDebugMode) {
         print(result?.sorular?[0].soru);
         print('A) ${result?.sorular![0].secenekler?[0]}');
@@ -71,7 +75,8 @@ class _QuizScreenState extends State<QuizScreen> {
     try {
       String answer = '';
       String question = myController.text;
-      String allQuestion ='$question ile ilgili 4 soru 4 şık ve cevaplarını döndür. $prompt';
+      String allQuestion =
+          '$question ile ilgili 4 tane $zorluk soru 4 şık ve cevaplarını döndür. $prompt';
       gemini.streamGenerateContent(allQuestion).listen((event) {
         answer += event.output ?? '';
       }, onDone: () async {
@@ -187,65 +192,142 @@ class _QuizScreenState extends State<QuizScreen> {
                         ],
                       ),
                       const SizedBox(height: 10.0),
-                      // Zorluk Derecesi
-                      Row(
-                        children: [
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'Zorluk Derecesi',
-                                  style: GoogleFonts.poppins(
-                                    fontSize: 15.0,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.black,
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 10.0, horizontal: 20.0),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Zorluk Derecesi',
+                                    style: GoogleFonts.poppins(
+                                      fontSize: 16.0,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.black87,
+                                    ),
                                   ),
-                                ),
-                                DropdownButtonFormField<String>(
-                                  value: zorluk,
-                                  onChanged: (String? newValue) {
-                                    setState(() {
-                                      zorluk = newValue!;
-                                      if (kDebugMode) {
-                                        print(newValue);
-                                      }
-                                    });
-                                  },
-                                  items: <String>['Kolay', 'Orta', 'Zor']
-                                      .map<DropdownMenuItem<String>>(
-                                          (String value) {
-                                    return DropdownMenuItem<String>(
-                                      value: value,
-                                      child: Text(
-                                        value,
-                                        style: GoogleFonts.poppins(
-                                          fontSize: 15.0,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.black,
+                                  const SizedBox(height: 8.0),
+                                  DropdownButtonFormField<String>(
+                                    value: zorluk,
+                                    onChanged: (String? newValue) {
+                                      setState(() {
+                                        zorluk = newValue!;
+                                        if (kDebugMode) {
+                                          print(newValue);
+                                        }
+                                      });
+                                    },
+                                    items: <String>[
+                                      'Kolay',
+                                      'Orta',
+                                      'Zor',
+                                      'Çok Zor',
+                                      'Uzman'
+                                    ].map<DropdownMenuItem<String>>(
+                                        (String value) {
+                                      return DropdownMenuItem<String>(
+                                        value: value,
+                                        child: Text(
+                                          value,
+                                          style: GoogleFonts.poppins(
+                                            fontSize: 15.0,
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.black87,
+                                          ),
+                                        ),
+                                      );
+                                    }).toList(),
+                                    decoration: InputDecoration(
+                                      contentPadding:
+                                          const EdgeInsets.symmetric(
+                                        vertical: 10.0,
+                                        horizontal: 15.0,
+                                      ),
+                                      border: OutlineInputBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(12.0),
+                                        borderSide: const BorderSide(
+                                          color: Colors.black54,
                                         ),
                                       ),
-                                    );
-                                  }).toList(),
-                                  decoration: InputDecoration(
-                                    border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(15.0),
-                                      borderSide: const BorderSide(
-                                        color: Color.fromARGB(255, 1, 41, 3),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(12.0),
+                                        borderSide: const BorderSide(
+                                          color: Colors.green,
+                                        ),
                                       ),
                                     ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
+                      // // Zorluk Derecesi
+                      // Row(
+                      //   children: [
+                      //     Expanded(
+                      //       child: Column(
+                      //         crossAxisAlignment: CrossAxisAlignment.start,
+                      //         children: [
+                      //           Text(
+                      //             'Zorluk Derecesi',
+                      //             style: GoogleFonts.poppins(
+                      //               fontSize: 15.0,
+                      //               fontWeight: FontWeight.bold,
+                      //               color: Colors.black,
+                      //             ),
+                      //           ),
+                      //           DropdownButtonFormField<String>(
+                      //             value: zorluk,
+                      //             onChanged: (String? newValue) {
+                      //               setState(() {
+                      //                 zorluk = newValue!;
+                      //                 if (kDebugMode) {
+                      //                   print(newValue);
+                      //                 }
+                      //               });
+                      //             },
+                      //             items: <String>['Kolay', 'Orta', 'Zor']
+                      //                 .map<DropdownMenuItem<String>>(
+                      //                     (String value) {
+                      //               return DropdownMenuItem<String>(
+                      //                 value: value,
+                      //                 child: Text(
+                      //                   value,
+                      //                   style: GoogleFonts.poppins(
+                      //                     fontSize: 15.0,
+                      //                     fontWeight: FontWeight.bold,
+                      //                     color: Colors.black,
+                      //                   ),
+                      //                 ),
+                      //               );
+                      //             }).toList(),
+                      //             decoration: InputDecoration(
+                      //               border: OutlineInputBorder(
+                      //                 borderRadius: BorderRadius.circular(15.0),
+                      //                 borderSide: const BorderSide(
+                      //                   color: Color.fromARGB(255, 1, 41, 3),
+                      //                 ),
+                      //               ),
+                      //             ),
+                      //           ),
+                      //         ],
+                      //       ),
+                      //     ),
+                      //   ],
+                      // ),
                       const SizedBox(height: 30.0),
                       // Quiz Oluştur Butonu
                       ElevatedButton(
                         onPressed: () async {
                           debugPrint(myController.text);
+                          debugPrint(zorluk);
                           generateQuiz();
                         }, // Oluştur butonu istenen metni ve zorluk seviyesini aı bota iletecek.
                         style: ElevatedButton.styleFrom(
